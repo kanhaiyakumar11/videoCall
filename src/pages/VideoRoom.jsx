@@ -7,10 +7,10 @@ function VideoRoom() {
     const meetingRef = useRef(null);
 
     useEffect(() => {
-        const appID = 1061352734;
-        const serverSecret = "0259fe01f2bdb582f291436840f9db7f";
+        const appID = 1061352734;  // ✅ Apna Zego App ID
+        const serverSecret = "0259fe01f2bdb582f291436840f9db7f";  // ✅ Apna Zego Secret Key
 
-        // ✅ Room ID sanitize karein (Sirf allowed characters rakhein)
+        // ✅ Room ID sanitize karein
         const validRoomId = roomId.replace(/[^a-zA-Z0-9-_]/g, "");
         if (!validRoomId) {
             console.error("Invalid room ID. Use only letters, numbers, - or _.");
@@ -19,16 +19,18 @@ function VideoRoom() {
 
         if (meetingRef.current) {
             const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-                appID, serverSecret, validRoomId, Date.now().toString(), "kanha"
+                appID, serverSecret, validRoomId, Date.now().toString(), "User"
             );
+
+            console.log("Kit Token:", kitToken);  // ✅ Debugging ke liye
 
             const zp = ZegoUIKitPrebuilt.create(kitToken);
             zp.joinRoom({
-                container: meetingRef.current,  // ✅ Correct usage of container
+                container: meetingRef.current,
                 sharedLinks: [
                     {
                         name: "Copy Link",
-                        url: `http://localhost:5173/room/${validRoomId}`,
+                        url: `https://your-app.onrender.com/room/${validRoomId}`,  // ✅ Render ka URL
                     },
                 ],
                 scenario: {
